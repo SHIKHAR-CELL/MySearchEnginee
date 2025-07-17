@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Chat History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+           background-color: #d3d3d3;
+            padding: 30px;
+        }
+        .entry {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+        }
+        form {
+            display: inline;
+        }
+        button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+<h2>📜 Chat History</h2>
+
+
+
+<div th:if="${historyList.size() == 0}">
+    <em>No chat history found.</em>
+</div>
+
+<div th:each="entry : ${historyList}" class="entry">
+    <p><strong>Model:</strong> <span th:text="${entry.modelUsed}"></span></p>
+    <p><strong>Prompt:</strong> <span th:text="${entry.prompt}"></span></p>
+    <p><strong>Response:</strong> <span th:text="${entry.response}"></span></p>
+    <p><small><em th:text="${entry.timestamp}"></em></small></p>
+
+    <form th:action="@{/chat/history/delete/{id}(id=${entry.id})}" method="post">
+        <button type="submit">🗑️ Delete</button>
+    </form>
+</div>
+<a th:href="@{/chat/converse}" style="text-decoration: none;">
+    <button class="home-button">Open GPT Like Interface</button>
+</a>
+<a th:href="@{/}" style="text-decoration: none;">
+    <button class="home-button">🏠 Return to Home</button>
+</a>
+</body>
+</html>
